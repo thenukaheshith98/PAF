@@ -86,11 +86,11 @@ public class Doctor {
 	 
 	 while (rs.next())
 	 {
-	 String drID = Integer.toString(rs.getInt("itemID"));
-	 String drdCode = rs.getString("itemCode");
-	 String drName = rs.getString("itemName");
-	 String drsSlary = Double.toString(rs.getDouble("itemPrice"));
-	 String drSpecial = rs.getString("itemDesc");
+	 String drID = Integer.toString(rs.getInt("drID"));
+	 String drdCode = rs.getString("drdCode");
+	 String drName = rs.getString("drName");
+	 String drsSlary = Double.toString(rs.getDouble("drsSlary"));
+	 String drSpecial = rs.getString("drSpecial");
 	 
 	 // Add into the html table
 	 
@@ -101,8 +101,8 @@ public class Doctor {
 	 
 	 // buttons
 	 
-	 output += "<td><input name=\"btnUpdate\" type=\"button\"value=\"Update\" class=\"btn btn-secondary\"></td>"+ "<td><form method=\"post\" action=\"items.jsp\">"+"<input name=\"btnRemove\" type=\"submit\" value=\"Remove\" class=\"btn btn-danger\">"
-	 + "<input name=\"itemID\" type=\"hidden\" value=\"" + drID
+	 output += "<td><input name=\"btnUpdate\" type=\"button\"value=\"Update\" class=\"btn btn-secondary\"></td>"+ "<td><form method=\"post\" action=\"doctor.jsp\">"+"<input name=\"btnRemove\" type=\"submit\" value=\"Remove\" class=\"btn btn-danger\">"
+	 + "<input name=\"drID\" type=\"hidden\" value=\"" + drID
 	 + "\">" + "</form></td></tr>";
 	 }
 	 con.close();
@@ -122,7 +122,49 @@ public class Doctor {
 	 }
 	 return output;
 	 } 
+
 	
+	public String updateDoctor(String ID, String dcode, String dname, String dsalary, String dspecial)
+	 {
+	 String output = "";
+	 
+	 try
+	 {
+	 Connection con = connect();
+	 
+	 if (con == null)
+	 {return "Error while connecting to the database for updating."; 
+	 }
+	 
+	 // create a prepared statement
+	 
+	 String query = "UPDATE doctor SET drdCode=?,drName=?,drsSlary=?,drSpecial=?WHERE drID=?";
+	 
+	 PreparedStatement preparedStmt = ((java.sql.Connection) con).prepareStatement(query);
+	 
+	 // binding values
+	 
+	 preparedStmt.setString(1, dcode);
+	 preparedStmt.setString(2, dname);
+	 preparedStmt.setDouble(3, Double.parseDouble(dsalary));
+	 preparedStmt.setString(4, dspecial);
+	 preparedStmt.setInt(5, Integer.parseInt(ID));
+	 
+	 // execute the statement
+	 
+	 preparedStmt.execute();
+	 con.close();
+	 output = "Updated successfully";
+	 }
+	 
+	 catch (Exception e)
+	 {
+	 output = "Error while updating the doctor .";
+	 System.err.println(e.getMessage());
+	 }
+	 
+	 return output;
+	 }
 	
 	
 	
