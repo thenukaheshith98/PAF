@@ -16,14 +16,14 @@ import javax.ws.rs.core.MediaType;
 public class PaymentResource {
 	
 	PaymentRepositery PR = new PaymentRepositery();
-	
+	//view payment details
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	
 	public List<Payment> getAllPayment(){
 		return PR.getAllPayment();
 	}
-	
+	//insert payment details 
 	@POST
 	@Path("/Payment")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -31,7 +31,7 @@ public class PaymentResource {
 	public Payment createPayment(Payment P1) {
 		return PR.createPayment(P1);
 	}
-	
+	//update payment details
 	@PUT
 	@Path("/Payment")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -40,7 +40,7 @@ public class PaymentResource {
 		return PR.updatePayment(P1);
 		
 	}
-	
+	//Delete payment details
 	@DELETE
 	@Path("/Payment")
 	@Consumes(MediaType.APPLICATION_JSON)
